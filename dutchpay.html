@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>더치페이 계산기v1</h1>
+인원
+<select id='number' name="members" size="1">
+  <option value=1>1</option>
+  <option value=2>2</option>
+  <option value=3>3</option>
+  <option value=4>4</option>
+  <option value=5>5</option>
+</select>
+<button onclick="myFunction()">확인</button>
+
+<br>
+이름
+<br>
+<input id='name1' type="text" name="FirstName" value="지성"><br>
+<input id='name2' type="text" name="LastName" value="재면"><br>
+<input id='name3' type="text" name="LastName" value="영수"><br>
+<input id='name4' type="text" name="LastName" value="규민"><br>
+<input id='name5' type="text" name="LastName" value="태현"><br>
+<p id='test'>test</p>
+<script>
+var maxnum=5;
+var i,id;
+for (i=0;i<maxnum;i++) {
+id='name'+(i+1);
+document.getElementById(id).style.display = "none";
+}
+
+function myFunction() {
+  var i,id;
+  
+  for (i=0;i<document.getElementById('number').value;i++){
+    id='name'+(i+1);
+    document.getElementById(id).style.display = "inline";
+  }
+  for (i=document.getElementById('number').value;i<maxnum;i++) {
+    id='name'+(i+1);
+    document.getElementById(id).style.display = "none";
+  }
+}
+
+</script>
+</body>
+</html>
