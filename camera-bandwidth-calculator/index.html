@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Camera Bandwidth Calculator</title>
+<meta name="description" content="Calculate raw camera bandwidth in Mbps and Gbps from resolution, frame rate, bit depth, camera count, and protocol overhead." />
+<style>
+:root{--bg:#0b1220;--panel:#111a2e;--text:#eef4ff;--muted:#9fb0cc;--line:#263653;--accent:#6ee7c8;--danger:#ffb4a2}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#09111f,#0e1728);color:var(--text);line-height:1.6}.wrap{max-width:980px;margin:auto;padding:24px}.hero{padding:48px 0 24px}.eyebrow{color:var(--accent);font-weight:800;letter-spacing:.08em;font-size:13px}.hero h1{font-size:clamp(40px,7vw,68px);line-height:1.02;margin:10px 0 18px}.hero p{color:var(--muted);font-size:19px;max-width:760px}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:22px}.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:0 18px 60px rgba(0,0,0,.2)}label{display:block;font-weight:700;margin:14px 0 7px}.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}input,select{width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:#0b1426;color:var(--text);font-size:16px}button{width:100%;margin-top:20px;padding:14px;border:0;border-radius:12px;background:var(--accent);color:#06121b;font-size:17px;font-weight:900;cursor:pointer}.result{font-size:42px;font-weight:900;line-height:1.1;margin:8px 0}.sub{color:var(--muted)}.metric{padding:15px 0;border-bottom:1px solid var(--line)}.metric:last-child{border-bottom:0}.metric strong{display:block;font-size:21px}.status{display:inline-block;margin-top:12px;padding:7px 10px;border-radius:999px;background:#14253b;color:var(--accent);font-weight:800}.content{margin-top:22px}.content h2{margin-top:34px}.content p,.content li{color:#c7d2e7}.formula{padding:16px;border-radius:14px;background:#0b1426;border:1px solid var(--line);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;overflow:auto}.footer{padding:40px 0;color:var(--muted);font-size:14px}.tiny{font-size:13px;color:var(--muted)}@media(max-width:760px){.grid,.row{grid-template-columns:1fr}.hero{padding-top:28px}.result{font-size:34px}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Camera Bandwidth Calculator","applicationCategory":"UtilityApplication","operatingSystem":"Any","description":"Calculate camera bandwidth from resolution, frame rate, bit depth, camera count, and overhead."}</script>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+<div class="eyebrow">FREE ONLINE TOOL</div>
+<h1>Camera Bandwidth Calculator</h1>
+<p>Estimate the raw and practical network bandwidth required for one or more industrial, machine vision, CCTV, or scientific cameras.</p>
+</header>
+<main class="grid">
+<section class="card">
+<div class="row">
+<div><label for="width">Width (pixels)</label><input id="width" type="number" min="1" value="1920"></div>
+<div><label for="height">Height (pixels)</label><input id="height" type="number" min="1" value="1080"></div>
+</div>
+<div class="row">
+<div><label for="fps">Frame rate (FPS)</label><input id="fps" type="number" min="0.01" step="0.01" value="60"></div>
+<div><label for="bitDepth">Bits per pixel</label><select id="bitDepth"><option value="8">8-bit mono</option><option value="10">10-bit mono</option><option value="12">12-bit mono</option><option value="16">16-bit mono</option><option value="24" selected>24-bit RGB</option><option value="32">32-bit RGBA</option></select></div>
+</div>
+<div class="row">
+<div><label for="count">Number of cameras</label><input id="count" type="number" min="1" value="1"></div>
+<div><label for="overhead">Protocol overhead</label><select id="overhead"><option value="1">0%</option><option value="1.1" selected>10%</option><option value="1.2">20%</option><option value="1.3">30%</option></select></div>
+</div>
+<button id="calc">Calculate bandwidth</button>
+<p class="tiny">This estimate assumes uncompressed image transfer. Compression can reduce the required bandwidth significantly.</p>
+</section>
+<aside class="card" aria-live="polite">
+<div class="sub">Recommended link capacity</div>
+<div class="result" id="recommended">10 Gbps</div>
+<div class="status" id="status">High-bandwidth setup</div>
+<div class="metric"><span class="sub">Raw bandwidth</span><strong id="raw">2.99 Gbps</strong></div>
+<div class="metric"><span class="sub">With overhead</span><strong id="practical">3.28 Gbps</strong></div>
+<div class="metric"><span class="sub">Per camera</span><strong id="perCamera">3.28 Gbps</strong></div>
+</aside>
+</main>
+<section class="content card">
+<h2>Formula</h2>
+<div class="formula">Bandwidth = width × height × frames per second × bits per pixel × camera count × overhead</div>
+<h2>Example</h2>
+<p>A 1920×1080 RGB camera at 60 FPS produces about 2.99 Gbps of raw image data. With 10% overhead, the practical requirement is about 3.28 Gbps, so a 10 Gigabit Ethernet connection is the sensible choice.</p>
+<h2>How much overhead should I use?</h2>
+<p>Use 10% for a simple estimate. Use 20–30% when you want extra safety margin for packet overhead, bursts, imperfect utilization, and multiple devices sharing the same uplink.</p>
+<h2>Does GigE Vision require the full raw bandwidth?</h2>
+<p>For uncompressed image streams, the required throughput is close to the raw image data rate plus transport overhead. Packet size, inter-packet delay, NIC performance, and switch backplane capacity also affect real-world performance.</p>
+<h2>FAQ</h2>
+<h3>Can a 1 Gbps link carry a 1920×1080 60 FPS RGB stream?</h3>
+<p>No. Uncompressed 24-bit RGB at that resolution and frame rate requires roughly 3 Gbps before overhead.</p>
+<h3>What if the camera uses Bayer 8-bit output?</h3>
+<p>Select 8 bits per pixel. Bayer output is typically much smaller than 24-bit RGB because demosaicing can occur after transfer.</p>
+<h3>Should I calculate each camera separately?</h3>
+<p>You can enter the number of cameras directly. For switch design, compare the total result with the uplink capacity and also verify each individual port speed.</p>
+</section>
+<footer class="footer">© 2026 Camera Bandwidth Calculator</footer>
+</div>
+<script>
+const ids=['width','height','fps','bitDepth','count','overhead'];
+function fmtGbps(bps){const gbps=bps/1e9;return gbps>=1?gbps.toFixed(2)+' Gbps':(bps/1e6).toFixed(1)+' Mbps'}
+function recommend(bps){if(bps<=100e6)return['100 Mbps','Low-bandwidth setup'];if(bps<=1e9)return['1 Gbps','Fits standard Gigabit Ethernet'];if(bps<=2.5e9)return['2.5 Gbps','Use 2.5GbE'];if(bps<=5e9)return['5 Gbps','Use 5GbE'];if(bps<=10e9)return['10 Gbps','Use 10GbE'];if(bps<=25e9)return['25 Gbps','Use 25GbE'];if(bps<=40e9)return['40 Gbps','Use 40GbE'];return['100 Gbps','Very high-bandwidth setup']}
+function calculate(){const width=+document.getElementById('width').value||0;const height=+document.getElementById('height').value||0;const fps=+document.getElementById('fps').value||0;const bits=+document.getElementById('bitDepth').value||0;const count=+document.getElementById('count').value||0;const overhead=+document.getElementById('overhead').value||1;const raw=width*height*fps*bits*count;const practical=raw*overhead;const per= count? practical/count:0;const rec=recommend(practical);document.getElementById('raw').textContent=fmtGbps(raw);document.getElementById('practical').textContent=fmtGbps(practical);document.getElementById('perCamera').textContent=fmtGbps(per);document.getElementById('recommended').textContent=rec[0];document.getElementById('status').textContent=rec[1]}
+document.getElementById('calc').addEventListener('click',calculate);ids.forEach(id=>document.getElementById(id).addEventListener('input',calculate));calculate();
+</script>
+</body>
+</html>
